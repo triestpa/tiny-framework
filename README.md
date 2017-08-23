@@ -1,9 +1,12 @@
 ### NodeJS Tiny Server Framework
 
 A tiny  NodeJS server framework, with a similar interface to Express and Koa.
-This is an experiment (and eventually a tutorial) in using the native NodeJS `http` module.
 
 The entire framework is **under 100 lines total** and **does not rely on any external dependencies**.
+
+This is an experiment (and eventually a tutorial) in using the native NodeJS `http` module.
+
+> **Please do not use this framework in production**.  This repository is intended as a learning resource! This "framework" is missing a lot of important features and general polish that you can find in established high-quality frameworks such as Koa, Express, Hapi, Sails, and Total.
 
 
 The syntax is very similar to Express, see the example app for details -
@@ -72,5 +75,3 @@ server.error((err, req) => {
 
 server.start(3000)
 ```
-
-> **Please do not use this framework in production**.  This repository is intended as a learning resource! This "framework" is missing a lot of important features and general polish that you can find in established high-quality frameworks such as Koa, Express, Hapi, Sails, and Total.
