@@ -1,5 +1,5 @@
 const http = require('http')
-const response = require('response')
+const Response = require('./response')
 // https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters
 
@@ -9,7 +9,7 @@ class Server {
     this.server = http.createServer()
     this.handlers = []
     this.routes = { GET: {}, POST: {}, PUT: {}, PATCH: {}, DELETE: {} }
-    this.errorHandler = (err) => console.error // Log errors to console by default
+    this.errorListener = (err) => console.error // Log errors to console by default
   }
 
   /** Start the server on the specified port */
@@ -34,7 +34,7 @@ class Server {
   delete (path, ...handlers) { this.routes.DELETE[path] = handlers }
 
   /** Assign an error callback */
-  error (handler) { this.errorHandler = handler }
+  error (listener) { this.errorListener = listener }
 
   /** Apply the assigned middleware and catch errors for an incoming HTTP request. */
   async handleRequest (req, res) {
@@ -45,8 +45,8 @@ class Server {
       // Then run process the request for the provied route
       await this.handleRoute(req, res)
     } catch (err) {
-      // Call the error handler if an error is thrown
-      this.errorHandler.call(this, err, req)
+      // Call the error listener if an error is thrown
+      this.errorListener.call(this, err, req)
 
       // Return HTTP 500 if error is not caught within handlers
       res.error(err.message)
@@ -68,7 +68,10 @@ class Server {
   /** Sequentially call each handler in the order that they were assigned */
   async callHandlers (handlers, req, res) {
     for (let handler of handlers) {
-      await handler.call(this, req, res)
+      // Stop the middleware chain if a response has been sent
+      if (!res.response.headersSent) {
+        await handler.call(this, req, res)
+      }
     }
   }
 }
