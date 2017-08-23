@@ -15,7 +15,8 @@ const Server = require('../server')
 const bodyParser = require('./bodyParser')
 const server = new Server()
 
-// Function declared with server.use will run in the order in which they are declared, for all server requests.
+// Functions declared with server.use will run in the order
+// in which they are declared, for every server request.
 server.use((req, res) => {
   console.log(req.url)
   console.log(req.method)
@@ -40,7 +41,7 @@ server.get('/auth', fakeAuth, (req, res) => {
   res.send(req.id)
 })
 
-// The post body is not parsed automatically, but can be done via middleware
+// The post body is not parsed automatically, but can be processed via middleware
 server.post('/echo', bodyParser, (req, res) => {
   res.send(req.body)
 })
