@@ -8,7 +8,7 @@ class Response {
   /** Send a formatted JSON response */
   send (content = 'OK', code = 200) {
     this.response.setHeader('Content-Type', 'application/json')
-    this.response.status = code
+    this.response.statusCode = code
     this.response.write(JSON.stringify(content))
     this.response.end()
   }
@@ -18,3 +18,5 @@ class Response {
     this.send(message, code)
   }
 }
+
+module.exports = Response
