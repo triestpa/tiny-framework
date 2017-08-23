@@ -1,6 +1,7 @@
-const Server = require('./server')
-const server = new Server()
+const Server = require('../server')
 const bodyParser = require('./bodyParser')
+
+const server = new Server()
 
 server.use(async (req, res) => {
   console.log(req.url)
