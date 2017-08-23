@@ -1,12 +1,12 @@
 ### NodeJS Tiny Server Framework
 
-A tiny  NodeJS server framework, with a similar interface to Express and Koa.
+A tiny NodeJS server framework, with a similar interface to [Express](https://github.com/expressjs/express).
 
 The entire framework is **under 100 lines total** and **does not rely on any external dependencies**.
 
 This is an experiment (and eventually a tutorial) in using the native NodeJS `http` module.
 
-> **Please do not use this framework in production**.  This repository is intended as a learning resource! This "framework" is missing a lot of important features and general polish that you can find in established high-quality frameworks such as Koa, Express, Hapi, Sails, and Total.
+> **Please do not use this framework in production**.  This repository is intended as a learning resource! This "framework" is missing a lot of important features and general polish that you can find in established high-quality frameworks such as [Koa](https://github.com/koajs/koa), [Express](https://github.com/expressjs/express), and [Hapi](https://github.com/hapijs/hapi).
 
 
 The syntax is very similar to Express, see the example app for details -
@@ -15,6 +15,7 @@ const Server = require('../server')
 const bodyParser = require('./bodyParser')
 const server = new Server()
 
+// Function declared with server.use will run in the order in which they are declared, for all server requests.
 server.use((req, res) => {
   console.log(req.url)
   console.log(req.method)
@@ -45,7 +46,7 @@ server.post('/echo', bodyParser, (req, res) => {
 })
 
 
-// Middleware can be aysnc functions and promises.
+// Middleware can also be aysnc functions or promises.
 // The route handler will always wait for the promise to resolve before continuing.
 server.get('/async', pointlessWaiting, pointlessWaiting, async (req, res) => {
   await waitAsync(500)
